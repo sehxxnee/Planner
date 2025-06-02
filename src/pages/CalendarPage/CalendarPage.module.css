@@ -1,0 +1,58 @@
+.calendarWrapper {
+  max-width: 800px;
+  margin: 40px auto;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  background: #e0e7ff;
+  position: relative;
+}
+
+.calendarHeader {
+  background: #b6b8f8;
+  color: #fff;
+  padding: 32px 32px 24px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 2rem;
+  font-weight: bold;
+  border-bottom-left-radius: 24px;
+  border-bottom-right-radius: 24px;
+}
+
+.calendarNav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.calendarTable {
+  width: 100%;
+  background: transparent;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 24px;
+}
+
+.calendarTable th {
+  color: #6b7280;
+  font-weight: 600;
+  padding: 12px 0;
+  background: transparent;
+}
+
+.calendarTable td {
+  text-align: center;
+  padding: 16px 0;
+  font-size: 1.1rem;
+  color: #22223b;
+  background: rgba(255,255,255,0.7);
+  border-radius: 12px;
+  transition: background 0.2s;
+}
+
+.calendarTable td.dimmed {
+  color: #b0b0b0;
+  background: transparent;
+} 
