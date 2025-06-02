@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavigationButton } from '../../shared/ui/NavigationButton';
 
 export const NavigationBar = () => {
   const handleCalendarClick = () => {
@@ -49,54 +50,9 @@ export const NavigationBar = () => {
         maxWidth: '100vw',
         boxSizing: 'border-box'
       }}>
-        <button 
-          onClick={handleCalendarClick}
-          style={{
-            backgroundColor: 'transparent',
-            border: '1px solid white',
-            color: 'white',
-            cursor: 'pointer',
-            fontSize: '1rem',
-            padding: '0.5rem 1rem',
-            borderRadius: '4px',
-            minWidth: 0,
-            whiteSpace: 'nowrap'
-          }}
-        >
-          캘린더
-        </button>
-        <button 
-          onClick={handleEventClick}
-          style={{
-            backgroundColor: 'transparent',
-            border: '1px solid white',
-            color: 'white',
-            cursor: 'pointer',
-            fontSize: '1rem',
-            padding: '0.5rem 1rem',
-            borderRadius: '4px',
-            minWidth: 0,
-            whiteSpace: 'nowrap'
-          }}
-        >
-          이벤트
-        </button>
-        <button 
-          onClick={handleNoteClick}
-          style={{
-            backgroundColor: 'transparent',
-            border: '1px solid white',
-            color: 'white',
-            cursor: 'pointer',
-            fontSize: '1rem',
-            padding: '0.5rem 1rem',
-            borderRadius: '4px',
-            minWidth: 0,
-            whiteSpace: 'nowrap'
-          }}
-        >
-          노트
-        </button>
+        <NavigationButton onClick={handleCalendarClick}>캘린더</NavigationButton>
+        <NavigationButton onClick={handleEventClick}>이벤트</NavigationButton>
+        <NavigationButton onClick={handleNoteClick}>노트</NavigationButton>
       </div>
     </nav>
   );
