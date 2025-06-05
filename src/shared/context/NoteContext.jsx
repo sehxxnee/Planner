@@ -1,18 +1,38 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const NoteContext = createContext();
 
-export const useNoteContext = () => useContext(NoteContext);
+export const useNoteContext = () => {
+  const context = useContext(NoteContext);
+  if (!context) {
+    throw new Error('useNoteContext must be used within a NoteProvider');
+  }
+  return context;
+};
 
 export const NoteProvider = ({ children }) => {
-  const [notes, setNotes] = useState([]);
-
-  const addNote = (note) => setNotes(prev => {
-    // 같은 날짜에 여러 개 저장 가능
-    return [...prev, { ...note, id: Date.now() }];
+  const [notes, setNotes] = useState(() => {
+    const savedNotes = localStorage.getItem('notes');
+    return savedNotes ? JSON.parse(savedNotes) : [];
   });
-  const deleteNote = (id) => setNotes(prev => prev.filter(n => n.id !== id));
-  const editNote = (note) => setNotes(prev => prev.map(n => (n.id === note.id ? note : n)));
+
+  useEffect(() => {
+    localStorage.setItem('notes', JSON.stringify(notes));
+  }, [notes]);
+
+  const addNote = (note) => {
+    setNotes(prev => [...prev, note]);
+  };
+
+  const deleteNote = (id) => {
+    setNotes(prev => prev.filter(note => note.id !== id));
+  };
+
+  const editNote = (updatedNote) => {
+    setNotes(prev => prev.map(note => 
+      note.id === updatedNote.id ? updatedNote : note
+    ));
+  };
 
   return (
     <NoteContext.Provider value={{ notes, addNote, deleteNote, editNote }}>

@@ -1,32 +1,124 @@
 import React, { useState } from 'react';
 
-export const EventForm = ({ onSubmit, onCancel, initialData }) => {
-  const [title, setTitle] = useState(initialData?.title || '');
-  const [date, setDate] = useState(initialData?.date || '');
-  const [description, setDescription] = useState(initialData?.description || '');
+export const EventForm = ({ onSubmit, onCancel, initialDate }) => {
+  const [text, setText] = useState('');
+  const [date, setDate] = useState(initialDate || new Date().toISOString().split('T')[0]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!title || !date) return;
+    if (!text.trim()) return;
+
     onSubmit({
-      id: initialData?.id || Date.now(),
-      title,
+      text: text.trim(),
       date,
-      description,
-      completed: initialData?.completed || false
+      completed: false
     });
+
+    setText('');
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ background: 'white', borderRadius: 16, boxShadow: '0 2px 8px rgba(0,0,0,0.08)', padding: 32, minWidth: 320, maxWidth: 400, margin: '40px auto', display: 'flex', flexDirection: 'column', gap: 16 }}>
-      <h3 style={{ margin: 0, color: '#4a90e2' }}>{initialData ? '이벤트 수정' : '이벤트 추가'}</h3>
-      <input type="text" placeholder="제목" value={title} onChange={e => setTitle(e.target.value)} style={{ padding: 10, borderRadius: 8, border: '1px solid #ddd', fontSize: 15 }} required />
-      <input type="date" value={date} onChange={e => setDate(e.target.value)} style={{ padding: 10, borderRadius: 8, border: '1px solid #ddd', fontSize: 15 }} required />
-      <textarea placeholder="설명 (선택)" value={description} onChange={e => setDescription(e.target.value)} style={{ padding: 10, borderRadius: 8, border: '1px solid #ddd', fontSize: 15, minHeight: 60 }} />
-      <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
-        <button type="button" onClick={onCancel} style={{ background: '#f5f5f5', border: 'none', borderRadius: 8, padding: '8px 20px', cursor: 'pointer', color: '#888' }}>취소</button>
-        <button type="submit" style={{ background: '#4a90e2', color: 'white', border: 'none', borderRadius: 8, padding: '8px 20px', cursor: 'pointer', fontWeight: 500 }}>{initialData ? '수정' : '추가'}</button>
+    <div style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      background: 'rgba(0, 0, 0, 0.5)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      zIndex: 1000
+    }}>
+      <div style={{
+        background: 'white',
+        padding: '24px',
+        borderRadius: '12px',
+        width: '100%',
+        maxWidth: '500px'
+      }}>
+        <h2 style={{ margin: '0 0 20px 0', color: '#333' }}>일정 추가</h2>
+        
+        <form onSubmit={handleSubmit}>
+          <div style={{ marginBottom: '16px' }}>
+            <label style={{
+              display: 'block',
+              marginBottom: '8px',
+              color: '#666'
+            }}>
+              날짜
+            </label>
+            <input
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              style={{
+                width: '100%',
+                padding: '8px',
+                border: '1px solid #ddd',
+                borderRadius: '4px',
+                fontSize: '14px'
+              }}
+            />
+          </div>
+
+          <div style={{ marginBottom: '20px' }}>
+            <label style={{
+              display: 'block',
+              marginBottom: '8px',
+              color: '#666'
+            }}>
+              일정 내용
+            </label>
+            <input
+              type="text"
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              placeholder="일정을 입력하세요"
+              style={{
+                width: '100%',
+                padding: '8px',
+                border: '1px solid #ddd',
+                borderRadius: '4px',
+                fontSize: '14px'
+              }}
+            />
+          </div>
+
+          <div style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            gap: '10px'
+          }}>
+            <button
+              type="button"
+              onClick={onCancel}
+              style={{
+                padding: '8px 16px',
+                border: '1px solid #ddd',
+                borderRadius: '4px',
+                background: 'white',
+                cursor: 'pointer'
+              }}
+            >
+              취소
+            </button>
+            <button
+              type="submit"
+              style={{
+                padding: '8px 16px',
+                background: '#4CAF50',
+                color: 'white',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer'
+              }}
+            >
+              추가
+            </button>
+          </div>
+        </form>
       </div>
-    </form>
+    </div>
   );
 }; 
