@@ -24,13 +24,17 @@ export const CalendarGrid = ({ currentDate }) => {
   const daysInMonth = getDaysInMonth(year, month);
   const firstDayOfMonth = getFirstDayOfMonth(year, month);
 
+  const formatDate = (year, month, day) => {
+    return `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+  };
+
   const getEventsForDate = (date) => {
-    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(date).padStart(2, '0')}`;
+    const dateStr = formatDate(year, month, date);
     return events.filter(e => e.date === dateStr);
   };
 
   const getNoteForDate = (date) => {
-    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(date).padStart(2, '0')}`;
+    const dateStr = formatDate(year, month, date);
     return notes.find(n => n.date === dateStr);
   };
 
@@ -85,7 +89,7 @@ export const CalendarGrid = ({ currentDate }) => {
       const note = getNoteForDate(day);
       let tooltip = '';
       if (dayEvents.length > 0) {
-        tooltip += `일정: ${dayEvents.map(e => e.title + (e.description ? ` (${e.description})` : '')).join(', ')}\n`;
+        tooltip += `일정: ${dayEvents.map(e => e.text).join(', ')}\n`;
       }
       if (note && note.emotion) {
         tooltip += `감정: ${note.emotion}\n`;
@@ -129,9 +133,9 @@ export const CalendarGrid = ({ currentDate }) => {
   // 모달에 표시할 일정/노트 정보
   const renderModal = () => {
     if (!modalOpen || !modalDate) return null;
-    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(modalDate).padStart(2, '0')}`;
-    const dayEvents = events.filter(e => e.date === dateStr);
-    const note = notes.find(n => n.date === dateStr);
+    const dateStr = formatDate(year, month, modalDate);
+    const dayEvents = getEventsForDate(modalDate);
+    const note = getNoteForDate(modalDate);
     return (
       <CalendarModal
         open={modalOpen}

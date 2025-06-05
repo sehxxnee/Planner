@@ -7,7 +7,8 @@ export const CalendarPage = () => {
   const { events, toggleEventComplete } = useEventContext();
   const [selectedDate, setSelectedDate] = useState(null);
   const [showDayModal, setShowDayModal] = useState(false);
-  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const todayStr = new Date().toISOString().slice(0, 10);
+  const [currentMonth, setCurrentMonth] = useState(new Date(todayStr + 'T12:00:00'));
 
   const getDaysInMonth = (date) => {
     const year = date.getFullYear();
@@ -21,7 +22,7 @@ export const CalendarPage = () => {
     }
     
     for (let i = 1; i <= daysInMonth; i++) {
-      days.push(new Date(year, month, i));
+      days.push(new Date(year, month, i, 12, 0, 0));
     }
     
     return days;

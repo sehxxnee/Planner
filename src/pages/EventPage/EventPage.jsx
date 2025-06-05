@@ -109,12 +109,16 @@ export const EventPage = () => {
                 fontSize: '14px',
                 color: '#666'
               }}>
-                {new Date(event.date).toLocaleDateString('ko-KR', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                  weekday: 'long'
-                })}
+                {(() => {
+                  const [year, month, day] = event.date.split('-').map(Number);
+                  const date = new Date(year, month - 1, day);
+                  return date.toLocaleDateString('ko-KR', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    weekday: 'long'
+                  });
+                })()}
               </div>
             </div>
             <div style={{

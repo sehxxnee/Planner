@@ -2,7 +2,16 @@ import React, { useState } from 'react';
 
 export const EventForm = ({ onSubmit, onCancel, initialDate }) => {
   const [text, setText] = useState('');
-  const [date, setDate] = useState(initialDate || new Date().toISOString().split('T')[0]);
+  const [date, setDate] = useState(() => {
+    if (initialDate) {
+      return initialDate.split('T')[0];
+    }
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();

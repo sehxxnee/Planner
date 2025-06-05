@@ -18,7 +18,8 @@ export const EventProvider = ({ children }) => {
     setEvents(prev => [...prev, {
       ...event,
       id: Date.now(),
-      completed: false
+      completed: false,
+      date: event.date // 변환 없이 그대로 저장
     }]);
   };
 
@@ -27,8 +28,8 @@ export const EventProvider = ({ children }) => {
   };
 
   const editEvent = (id, updatedEvent) => {
-    setEvents(prev => prev.map(event => 
-      event.id === id ? { ...event, ...updatedEvent } : event
+    setEvents(prev => prev.map(event =>
+      event.id === id ? { ...event, ...updatedEvent, date: updatedEvent.date } : event
     ));
   };
 
